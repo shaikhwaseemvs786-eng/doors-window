@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Door & Window Billing App</title>
+    <meta name="description" content="Premium billing application for Door and Window shops">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-door-open"></i>
+                <h1>Glass & Wood <span class="accent">Billing</span></h1>
+            </div>
+            <div class="header-actions">
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </header>
+
+        <main>
+            <section class="billing-form-section glass-panel">
+                <h2><i class="fa-solid fa-file-invoice"></i> Customer Details</h2>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="billNo">Bill No.</label>
+                        <input type="text" id="billNo" value="INV-001" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date">
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="customerName">Customer Name</label>
+                        <input type="text" id="customerName" placeholder="Enter customer name">
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="customerPhone">Phone Number</label>
+                        <input type="tel" id="customerPhone" placeholder="Enter phone number">
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <h2><i class="fa-solid fa-cart-plus"></i> Add Items</h2>
+                <div class="item-entry-form">
+                    <div class="input-group full-width">
+                        <label for="itemName">Item Description</label>
+                        <select id="itemName">
+                            <option value="Wooden Door">Wooden Door</option>
+                            <option value="Glass Window">Glass Window</option>
+                            <option value="Aluminum Section">Aluminum Section</option>
+                            <option value="Plywood Sheet">Plywood Sheet</option>
+                            <option value="Glass Polish">Glass Polish</option>
+                            <option value="Rubber Gasket">Rubber Gasket</option>
+                            <option value="Handles & Locks">Handles & Locks</option>
+                            <option value="Fitting Charge">Fitting Charge</option>
+                            <option value="Custom">Custom Item</option>
+                        </select>
+                        <input type="text" id="customItemName" placeholder="Item Name" class="hidden">
+                    </div>
+
+                    <div class="dimensions-row">
+                        <div class="input-group">
+                            <label for="width">Width (ft)</label>
+                            <input type="number" id="width" placeholder="0" step="0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="height">Height (ft)</label>
+                            <input type="number" id="height" placeholder="0" step="0.1">
+                        </div>
+                        <div class="input-group checkbox-group">
+                            <label for="isSqFt">
+                                <input type="checkbox" id="isSqFt" checked>
+                                Price by Area (Sq.Ft)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="price-row">
+                        <div class="input-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" id="quantity" value="1" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label for="rate">Rate (<span id="rateLabel">per sq.ft</span>)</label>
+                            <input type="number" id="rate" placeholder="0.00">
+                        </div>
+                        <div class="input-group">
+                            <label>Total Item Cost</label>
+                            <div class="calculated-preview" id="itemTotalPreview">₹0.00</div>
+                        </div>
+                    </div>
+
+                    <button id="addItemBtn" class="primary-btn"><i class="fa-solid fa-plus"></i> Add to Bill</button>
+                </div>
+            </section>
+
+            <section class="invoice-preview glass-panel">
+                <div class="invoice-header">
+                    <h2>Invoice Summary</h2>
+                    <button id="clearAllBtn" class="text-danger">Clear All</button>
+                </div>
+
+                <div class="table-container">
+                    <table id="invoiceTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Description</th>
+                                <th>Dim (WxH)</th>
+                                <th>Area/Qty</th>
+                                <th>Rate</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Items will appear here -->
+                        </tbody>
+                    </table>
+                    <div id="emptyState" class="empty-state">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <p>No items added yet</p>
+                    </div>
+                </div>
+
+                <div class="invoice-footer">
+                    <div class="totals">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span id="subTotalDisplay">₹0.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>GST (%)</span>
+                            <input type="number" id="gstInput" value="18" class="small-input">
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>Grand Total:</span>
+                            <span id="grandTotalDisplay">₹0.00</span>
+                        </div>
+                    </div>
+                    <button id="printBtn" class="action-btn"><i class="fa-solid fa-print"></i> Print Invoice</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Glass & Wood Billing. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Support</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Printable Invoice Template (Hidden until print) -->
+    <div id="printArea" class="hidden">
+        <div class="print-header">
+            <h1>DOOR & WINDOW SHOP</h1>
+            <p>123, Main Market Road, City Name - Pin Code</p>
+            <p>Phone: +91 98765 43210</p>
+        </div>
+        <hr>
+        <div class="print-details">
+            <div class="customer-info">
+                <p><strong>Bill To:</strong> <span id="printCustomerName"></span></p>
+                <p><strong>Phone:</strong> <span id="printCustomerPhone"></span></p>
+            </div>
+            <div class="invoice-meta">
+                <p><strong>Invoice #:</strong> <span id="printBillNo"></span></p>
+                <p><strong>Date:</strong> <span id="printDate"></span></p>
+            </div>
+        </div>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>Description</th>
+                    <th>Dimensions</th>
+                    <th>Qty/Area</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody"></tbody>
+        </table>
+        <div class="print-footer">
+            <div class="totals-section">
+                <p>Subtotal: <span id="printSubTotal"></span></p>
+                <p>GST: <span id="printGST"></span></p>
+                <h3>Total: <span id="printGrandTotal"></span></h3>
+            </div>
+            <div class="signature">
+                <br><br>
+                <p>Authorized Signature</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
